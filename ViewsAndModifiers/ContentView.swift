@@ -69,12 +69,31 @@ struct GridStack<Content: View>: View {
     }
 }
 
+struct newView: ViewModifier{
+    var modtext: String
+    func body(content: Content) -> some View{
+        Text(modtext)
+            .fontWeight(.heavy)
+            .foregroundColor(.white)
+            .background(Color.blue)
+    }
+}
+extension View{
+    func newViewed(with modtext: String) -> some View{
+        self.modifier(newView(modtext: modtext))
+    }
+}
+
 
 struct ContentView: View {
     var body: some View {
+        VStack{
         GridStack(rows: 4, columns: 4) { row, col in
             Image(systemName: "\(row * 4 + col).circle")
             Text("R\(row) C\(col)")
+        }
+        Text("Hello World")
+            .newViewed(with: "Hello World")
         }
     }
 }
